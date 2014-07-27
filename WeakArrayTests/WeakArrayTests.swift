@@ -146,7 +146,7 @@ class WeakArrayTests: XCTestCase {
         XCTAssert(i == 3, "Iteration count did not match")
     }
 
-    func testIterationContinuesIsNotInterruptedByNilObject() {
+    func testIterationIsNotInterruptedByNilObject() {
         var a = WeakArray<Object>()
         var obj1: Object? = Object()
         var obj2: Object? = Object()
@@ -154,8 +154,8 @@ class WeakArrayTests: XCTestCase {
         a += obj1
         a += obj2
         a += obj3
-        var i = 0
         obj2 = nil
+        var i = 0
         for value in a {
             i++
         }
