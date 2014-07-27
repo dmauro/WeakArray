@@ -40,12 +40,12 @@ private class Weak<T: AnyObject> {
 }
 
 public struct WeakArray<T: AnyObject>: Sequence, Printable, DebugPrintable {
-    // Private
+    // MARK: Private
     private typealias WeakObject = Weak<T>
     private typealias GeneratorType = WeakGenerator<T>
     private var items = [WeakObject]()
 
-    // Public Vars
+    // MARK: Public
     public var description: String {
         return items.description
     }
@@ -59,7 +59,7 @@ public struct WeakArray<T: AnyObject>: Sequence, Printable, DebugPrintable {
         return items.isEmpty
     }
 
-    // Methods
+    // MARK: Methods
     public init(array: [T] = []) {
         self += array
     }
