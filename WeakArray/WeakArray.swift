@@ -56,7 +56,7 @@ public struct WeakArray<T: AnyObject>: Sequence, Printable, DebugPrintable {
         return items.count
     }
     public var isEmpty: Bool {
-        return items.count == 0
+        return items.isEmpty
     }
 
     // Methods
