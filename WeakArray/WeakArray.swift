@@ -1,9 +1,9 @@
 //
 //  WeakArray.swift
-//  Astrogue
+//  WeakArray
 //
-//  Created by David Mauro on 7/26/14.
-//
+//  Created by David Mauro on 7/27/14.
+//  Copyright (c) 2014 David Mauro. All rights reserved.
 //
 
 // Operator Overloads
