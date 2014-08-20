@@ -37,7 +37,7 @@ private class Weak<T: AnyObject> {
 
 // MARK:-
 
-public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable {
+public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, ArrayLiteralConvertible {
     // MARK: Private
     private typealias WeakObject = Weak<T>
     private typealias GeneratorType = WeakGenerator<T>
@@ -58,9 +58,15 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable {
     }
 
     // MARK: Methods
-    public init(array: [T] = []) {
-        self += array
+    public static func convertFromArrayLiteral(elements: T...) -> WeakArray<T> {
+        var a = WeakArray<T>()
+        for element in elements {
+            a.append(element)
+        }
+        return a
     }
+
+    public init() {}
 
     public func generate() -> GeneratorType {
         let weakSlice: Slice<WeakObject> = items[0..<items.count]

@@ -172,7 +172,7 @@ class WeakArrayTests: XCTestCase {
 
     func testCanBeConstructedWithArrayLiteral() {
         var obj: Object? = Object()
-        var a = WeakArray<Object>(array: [obj!])
+        var a: WeakArray<Object> = [obj!]
         XCTAssert(a[0] == obj, "Object was not added")
     }
 }
