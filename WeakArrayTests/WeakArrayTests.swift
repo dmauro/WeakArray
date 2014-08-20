@@ -175,5 +175,23 @@ class WeakArrayTests: XCTestCase {
         var a: WeakArray<Object> = [obj!]
         XCTAssert(a[0] == obj, "Object was not added")
     }
+
+    func testFirst() {
+        var a = WeakArray<Object>()
+        var obj1: Object? = Object()
+        var obj2: Object? = Object()
+        a.append(obj1)
+        a.append(obj2)
+        XCTAssert(a.first == obj1, "First object did not match")
+    }
+
+    func testLast() {
+        var a = WeakArray<Object>()
+        var obj1: Object? = Object()
+        var obj2: Object? = Object()
+        a.append(obj1)
+        a.append(obj2)
+        XCTAssert(a.last == obj2, "Last object did not match")
+    }
 }
 

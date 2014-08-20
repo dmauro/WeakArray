@@ -56,6 +56,12 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, 
     public var isEmpty: Bool {
         return items.isEmpty
     }
+    public var first: T? {
+        return self[0]
+    }
+    public var last: T? {
+        return self[count - 1]
+    }
 
     // MARK: Methods
     public static func convertFromArrayLiteral(elements: T...) -> WeakArray<T> {
@@ -72,14 +78,6 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, 
         let weakSlice: Slice<WeakObject> = items[0..<items.count]
         let slice: Slice<T?> = weakSlice.map { $0.value }
         return GeneratorType(items: slice)
-    }
-
-    public func first() -> T? {
-        return self[0]
-    }
-
-    public func last() -> T? {
-        return self[count - 1]
     }
 
     mutating public func append(value: T?) {
