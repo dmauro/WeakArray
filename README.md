@@ -1,6 +1,6 @@
 Swift WeakArray
 ========
-Version 1.0  
+Version 0.2  
 WeakArray offers a collection type that behaves like a Swift Array, but will not retain any of its objects.
 
 Released under the Apache License, version 2.0
@@ -22,21 +22,18 @@ First make sure to import WeakArray:
 When creating a weak array, specify the collection type as you would with an Array:
 	
 	typealias myType = AnyObject
-	let a = WeakArray<MyType>()
+	var a = WeakArray<MyType>()
 	
-You can also pass in an array literal when creating a weak array, but because Arrays cannot hold optionals you'll need to get a non-optional value first if you want to do this:
+You can also use array literals to create a WeakArray, but to do so you'll need to unwrap your optionals with ```!```:
 
-	let view: UIView? = UIView()
-	let a = WeakArray<UIView>(array: [view!])
+	var view: UIView? = UIView()
+	var a: WeakArray<UIView> = [view!]
 	
 Otherwise a WeakArray works just like an Array:
 
-	let a = WeakArray<AnyObject>()
+	var a = WeakArray<AnyObject>()
 	
-	let view: UIView? = UIView()
-	
-	// Operator +=
-	a += view
+	var view: UIView? = UIView()
 	
 	// Append
 	a.append(view)
@@ -45,18 +42,30 @@ Otherwise a WeakArray works just like an Array:
 	a[0] = view
 	
 	// Replace with range
-	a[0..1] = [view, view]
+	a[0...1] = [view, view]
 	
 	// Remove Last
 	a.removeLast()
 	
 	// Remove at index
-	let view: UIView? = a.removeAtIndex(0)
+	var view: UIView? = a.removeAtIndex(0)
 	
 	// isEmpty and count
 	if (!a.isEmpty) {
 		println("Count: \(a.count)")
 	}
+	
+	// First and Last
+	var first: AnyObject? = a.first
+	var last: AnyObject? = a.list
+	
+	// Append WeakArray
+	var b = WeakArray<AnyObject>()
+	a += b
+	
+	// Or append a standard library Array
+	var c = Array<AnyObject>()
+	a += c
 
 You can also enumerate over a WeakArray like you would an Array, but keep in mind it will skip over nil values while count will include them, so **count may not
 match the number of enumerations you get**.
@@ -77,4 +86,15 @@ match the number of enumerations you get**.
         XCTAssert(a.count == 3, "")
         XCTAssert(i == 2, "")
     }
+    
+Version History
+===============
+**v0.2**
+
+* Update to match beta 5 array changes
+* Use ArrayLiteralConvertible
+
+**v0.1**
+
+* Released!
 	
