@@ -6,18 +6,14 @@
 //  Copyright (c) 2014 David Mauro. All rights reserved.
 //
 
-// Operator Overloads
-@infix public func +=<T> (inout lhs: WeakArray<T>, rhs: T?) -> WeakArray<T> {
-    lhs.append(rhs)
-    return lhs
-}
+// MARK: Operator Overloads
 
-@infix public func +=<T> (inout lhs: WeakArray<T>, rhs: WeakArray<T>) -> WeakArray<T> {
+public func +=<T> (inout lhs: WeakArray<T>, rhs: WeakArray<T>) -> WeakArray<T> {
     lhs.items += rhs.items
     return lhs
 }
 
-@infix public func +=<T> (inout lhs: WeakArray<T>, rhs: Array<T>) -> WeakArray<T> {
+public func +=<T> (inout lhs: WeakArray<T>, rhs: Array<T>) -> WeakArray<T> {
     for item in rhs {
         lhs.append(item)
     }
@@ -39,7 +35,9 @@ private class Weak<T: AnyObject> {
     }
 }
 
-public struct WeakArray<T: AnyObject>: Sequence, Printable, DebugPrintable {
+// MARK:-
+
+public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable {
     // MARK: Private
     private typealias WeakObject = Weak<T>
     private typealias GeneratorType = WeakGenerator<T>
@@ -70,9 +68,17 @@ public struct WeakArray<T: AnyObject>: Sequence, Printable, DebugPrintable {
         return GeneratorType(items: slice)
     }
 
+    public func first() -> T? {
+        return self[0]
+    }
+
+    public func last() -> T? {
+        return self[count - 1]
+    }
+
     mutating public func append(value: T?) {
         let weak = Weak(value: value)
-        items += weak
+        items.append(weak)
     }
 
     mutating public func removeAtIndex(i: Int) -> T? {
@@ -111,7 +117,9 @@ public struct WeakArray<T: AnyObject>: Sequence, Printable, DebugPrintable {
     }
 }
 
-public struct WeakGenerator<T>: Generator {
+// MARK:-
+
+public struct WeakGenerator<T>: GeneratorType {
     typealias Element = T
     private var items: Slice<T?>
 
@@ -119,7 +127,7 @@ public struct WeakGenerator<T>: Generator {
         while !items.isEmpty {
             let next = items[0]
             items = items[1..<items.count]
-            if next? {
+            if next != nil {
                 return next
             }
         }
