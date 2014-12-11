@@ -64,15 +64,14 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, 
     }
 
     // MARK: Methods
-    public static func convertFromArrayLiteral(elements: T...) -> WeakArray<T> {
-        var a = WeakArray<T>()
-        for element in elements {
-            a.append(element)
-        }
-        return a
-    }
 
     public init() {}
+    
+    public init(arrayLiteral elements: T...) {
+        for element in elements {
+            append(element)
+        }
+    }
 
     public func generate() -> GeneratorType {
         let weakSlice: Slice<WeakObject> = items[0..<items.count]
