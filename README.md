@@ -12,7 +12,7 @@ How to Install
 2. Open the `WeakArray` folder, and drag `WeakArray.xcodeproj` into the file navigator of your app project. **NOTE: The WeakArray project needs to be added somewhere under the target project or you won't be able to add it to your target dependencies.**
 3. Ensure that the deployment target of the WeakArray project matches that of the application target.
 4. In your target's "Build Phases" panel, add `WeakArray.framework` to the "Target Dependencies"
-5. Click on the `+` button at the top left of the panel and select "New Copy Files Phase". Rename this new phase to "Copy Frameworks", set the "Destination" to "Frameworks"
+5. Click on the `+` button at the top left of the panel and select "New Copy Files Phase". Rename this new phase to "Copy Frameworks", set the "Destination" to "Frameworks", and add `WeakArray.framework`.
 
 If that's too complicated, you can always just copy the files into your project manually and add them to your target. You'll only need the `WeakArray.h` and `WeakArray.swift` files.
 
