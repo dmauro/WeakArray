@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 David Mauro. All rights reserved.
 //
 
+import Foundation
+
 // MARK: Operator Overloads
 
 public func ==<T: Equatable>(lhs: WeakArray<T>, rhs: WeakArray<T>) -> Bool {
@@ -26,7 +28,7 @@ public func !=<T: Equatable>(lhs: WeakArray<T>, rhs: WeakArray<T>) -> Bool {
     return !(lhs == rhs)
 }
 
-public func ==<T: Equatable>(lhs: Slice<T?>, rhs: Slice<T?>) -> Bool {
+public func ==<T: Equatable>(lhs: ArraySlice<T?>, rhs: ArraySlice<T?>) -> Bool {
     var areEqual = false
     if lhs.count == rhs.count {
         areEqual = true
@@ -40,7 +42,7 @@ public func ==<T: Equatable>(lhs: Slice<T?>, rhs: Slice<T?>) -> Bool {
     return areEqual
 }
 
-public func !=<T: Equatable>(lhs: Slice<T?>, rhs: Slice<T?>) -> Bool {
+public func !=<T: Equatable>(lhs: ArraySlice<T?>, rhs: ArraySlice<T?>) -> Bool {
     return !(lhs == rhs)
 }
 
@@ -59,7 +61,7 @@ public func +=<T> (inout lhs: WeakArray<T>, rhs: Array<T>) -> WeakArray<T> {
 private class Weak<T: AnyObject> {
     weak var value : T?
     var description: String {
-        if let val = value? {
+        if let val = value {
             return "\(val)"
         } else {
             return "nil"
@@ -110,8 +112,8 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, 
     }
 
     public func generate() -> GeneratorType {
-        let weakSlice: Slice<WeakObject> = items[0..<items.count]
-        let slice: Slice<T?> = weakSlice.map { $0.value }
+        let weakSlice: ArraySlice<WeakObject> = items[0..<items.count]
+        let slice: ArraySlice<T?> = weakSlice.map { $0.value }
         return GeneratorType(items: slice)
     }
 
@@ -128,10 +130,10 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, 
         }
     }
 
-    public subscript(range: Range<Int>) -> Slice<T?> {
+    public subscript(range: Range<Int>) -> ArraySlice<T?> {
         get {
-            let weakSlice: Slice<WeakObject> = items[range]
-            let slice: Slice<T?> = weakSlice.map { $0.value }
+            let weakSlice: ArraySlice<WeakObject> = items[range]
+			let slice : ArraySlice<T?> = weakSlice.map { $0.value }
             return slice
         }
         set(value) {
@@ -170,17 +172,17 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, 
         items.removeRange(subRange)
     }
 
-    mutating public func replaceRange(subRange: Range<Int>, with newElements: Slice<T?>) {
+    mutating public func replaceRange(subRange: Range<Int>, with newElements: ArraySlice<T?>) {
         let weakElements = newElements.map { Weak(value: $0) }
         items.replaceRange(subRange, with: weakElements)
     }
 
-    mutating public func splice(newElements: Slice<T?>, atIndex i: Int) {
+    mutating public func splice(newElements: ArraySlice<T?>, atIndex i: Int) {
         let weakElements = newElements.map { Weak(value: $0) }
         items.splice(weakElements, atIndex: i)
     }
 
-    mutating public func extend(newElements: Slice<T?>) {
+    mutating public func extend(newElements: ArraySlice<T?>) {
         let weakElements = newElements.map { Weak(value: $0) }
         items.extend(weakElements)
     }
@@ -209,7 +211,7 @@ public struct WeakArray<T: AnyObject>: SequenceType, Printable, DebugPrintable, 
 
 public struct WeakGenerator<T>: GeneratorType {
     typealias Element = T
-    private var items: Slice<T?>
+    private var items: ArraySlice<T?>
 
     mutating public func next() -> T? {
         while !items.isEmpty {
