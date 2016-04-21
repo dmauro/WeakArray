@@ -1,5 +1,8 @@
 Swift WeakArray
 ========
+**NOTE:**  
+This project is pretty old at this point and will not compile with newer versions of Swift. It might be revisited, but for now this project is at a dead stand still.
+
 Version 0.3  
 WeakArray offers a collection type that behaves like a Swift Array, but will not retain any of its objects.
 
